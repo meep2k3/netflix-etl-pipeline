@@ -1,0 +1,136 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: netflix_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
+    networks:
+      - netflix_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Apache Airflow Database (PostgreSQL for Airflow metadata)
+  airflow_db:
+    image: postgres:13
+    container_name: netflix_airflow_db
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+    networks:
+      - netflix_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+
+  # Apache Airflow Webserver
+  airflow_webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: netflix_airflow_webserver
+    depends_on:
+      airflow_db:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow_db:5432/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: false
+      AIRFLOW__CORE__LOAD_EXAMPLES: false
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: true
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./etl:/opt/airflow/etl
+      - ./data:/opt/airflow/data
+    ports:
+      - "8080:8080"
+    networks:
+      - netflix_network
+    command: >
+      bash -c "
+        airflow db init &&
+        airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin &&
+        airflow webserver
+      "
+
+  # Apache Airflow Scheduler
+  airflow_scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: netflix_airflow_scheduler
+    depends_on:
+      airflow_db:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow_db:5432/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./etl:/opt/airflow/etl
+      - ./data:/opt/airflow/data
+    networks:
+      - netflix_network
+    command: airflow scheduler
+
+  # Apache Superset 
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile.superset
+    container_name: netflix_superset
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY}
+      # XÓA dòng SUPERSET_DATABASE_URI này đi vì nó override config
+      # SUPERSET_DATABASE_URI: ${SUPERSET_DATABASE_URI}  
+      SUPERSET_CONFIG_PATH: /app/superset_home/superset_config.py
+      PYTHONPATH: /app/superset_home:/app/pythonpath_dev
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./superset:/app/superset_home  # Giữ nguyên
+    networks:
+      - netflix_network
+    command: >
+      bash -c "
+        python -c 'import pymysql; pymysql.install_as_MySQLdb()' &&
+        superset fab create-admin --username admin --firstname Admin --lastname User --email admin@superset.com --password admin &&
+        superset db upgrade &&
+        superset init &&
+        superset run -h 0.0.0.0 -p 8088
+      "
+  
+volumes:
+  mysql_data:
+  airflow_db_data:
+
+networks:
+  netflix_network:
+    driver: bridge

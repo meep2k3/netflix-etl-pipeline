@@ -1,0 +1,32 @@
+FROM apache/superset:latest
+
+USER root
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    pkg-config \
+    default-libmysqlclient-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip install pymysql
+RUN pip install mysqlclient
+
+# Create directory as root, then switch to superset user
+RUN mkdir -p /app/pythonpath_dev
+RUN echo "import pymysql; pymysql.install_as_MySQLdb()" > /app/pythonpath_dev/superset_init.py
+RUN echo "" > /app/pythonpath_dev/__init__.py
+RUN chown -R superset:superset /app/pythonpath_dev
+
+# Copy existing superset config từ host
+COPY superset/superset_config.py /app/superset_home/superset_config.py
+
+USER superset
+
+# Set environment variables permanently
+ENV PYTHONPATH=/app/superset_home:/app/pythonpath_dev
+ENV SUPERSET_CONFIG_PATH=/app/superset_home/superset_config.py
+
+# Import the fix at container start
+RUN python -c "import pymysql; pymysql.install_as_MySQLdb()"

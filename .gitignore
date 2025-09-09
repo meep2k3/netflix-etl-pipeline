@@ -1,0 +1,45 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Environment variables
+.env
+
+# Jupyter notebooks
+.ipynb_checkpoints
+
+# Logs
+*.log
+logs/
+airflow/logs/
+superset_home/superset.db
+
+# Airflow
+airflow/logs/
+airflow/dags/__pycache__/
+airflow/plugins/__pycache__/
+
+# Docker
+*.pid
+*.sock
+
+# Data
+data/processed/
+data/*.db
+data/*.sqlite
+data/*.parquet
+
+# Ignore large raw data files if needed
+# data/raw/*.csv
+
+# VSCode
+.vscode/
