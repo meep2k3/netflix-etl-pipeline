@@ -31,30 +31,6 @@ Key technologies used:
 
 ---
 
-## 📊 Dashboards Preview
-- **Content Growth Over Time**  
-  ![Growth](dashbroads/content-growth-over-time-2025-09-07T17-29-34.974Z.jpg)
-
-- **Distribution by Type**  
-  ![Type](dashbroads/content-distribution-by-type-2025-09-07T17-29-44.282Z.jpg)
-
-- **Top 15 Countries**  
-  ![Countries](dashbroads/top-15-countries-by-content-volume-2025-09-07T17-29-53.079Z.jpg)
-
-- **Ratings Distribution**  
-  ![Ratings](dashbroads/content-ratings-distribution-2025-09-07T17-30-00.744Z.jpg)
-
-- **Top Genres**  
-  ![Genres](dashbroads/top-genres-performance-2025-09-07T17-30-06.903Z.jpg)
-
-- **Duration & Seasons**  
-  ![Duration](dashbroads/content-duration-and-season-analysis-2025-09-07T17-30-13.328Z.jpg)
-
-- **Full Dashboard**  
-  ![Dashboard](dashbroads/netflix-analytics-dashboard-2025-09-07T17-30-26.572Z.jpg)
-
----
-
 ## 🎯 Learning Objectives
 This project was built to practice **Data Engineering skills**:
 - Building ETL pipelines with Python & SQL  
@@ -146,6 +122,30 @@ flowchart LR
     C -->|Load| D[MySQL Database: Star Schema]
     D -->|Query| E[Superset Dashboard]
 ```
+
+---
+
+## 📊 Dashboards Preview
+- **Content Growth Over Time**  
+  ![Growth](dashbroads/content-growth-over-time-2025-09-07T17-29-34.974Z.jpg)
+
+- **Distribution by Type**  
+  ![Type](dashbroads/content-distribution-by-type-2025-09-07T17-29-44.282Z.jpg)
+
+- **Top 15 Countries**  
+  ![Countries](dashbroads/top-15-countries-by-content-volume-2025-09-07T17-29-53.079Z.jpg)
+
+- **Ratings Distribution**  
+  ![Ratings](dashbroads/content-ratings-distribution-2025-09-07T17-30-00.744Z.jpg)
+
+- **Top Genres**  
+  ![Genres](dashbroads/top-genres-performance-2025-09-07T17-30-06.903Z.jpg)
+
+- **Duration & Seasons**  
+  ![Duration](dashbroads/content-duration-and-season-analysis-2025-09-07T17-30-13.328Z.jpg)
+
+- **Full Dashboard**  
+  ![Dashboard](dashbroads/netflix-analytics-dashboard-2025-09-07T17-30-26.572Z.jpg)
 
 ---
 
