@@ -108,14 +108,12 @@ services:
         condition: service_healthy
     environment:
       SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY}
-      # XÓA dòng SUPERSET_DATABASE_URI này đi vì nó override config
-      # SUPERSET_DATABASE_URI: ${SUPERSET_DATABASE_URI}  
       SUPERSET_CONFIG_PATH: /app/superset_home/superset_config.py
       PYTHONPATH: /app/superset_home:/app/pythonpath_dev
     ports:
       - "8088:8088"
     volumes:
-      - ./superset:/app/superset_home  # Giữ nguyên
+      - ./superset:/app/superset_home  
     networks:
       - netflix_network
     command: >
