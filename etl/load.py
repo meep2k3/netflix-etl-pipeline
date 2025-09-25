@@ -25,9 +25,22 @@ def load(
     bridge_show_country = pd.read_csv(os.path.join(data_dir, "bridge_show_country.csv"))
 
     # --- Load fact_show ---
+    # CLEAR TABLE
+    with engine.begin() as conn:
+        conn.execute(text("DELETE FROM dim_director"))
+        conn.execute(text("DELETE FROM dim_cast"))
+        conn.execute(text("DELETE FROM dim_country"))
+        conn.execute(text("DELETE FROM dim_genre"))
+        conn.execute(text("DELETE FROM bridge_show_director"))
+        conn.execute(text("DELETE FROM bridge_show_cast"))
+        conn.execute(text("DELETE FROM bridge_show_country"))
+        conn.execute(text("DELETE FROM bridge_show_genre"))
+        conn.execute(text("DELETE FROM fact_show"))
+        print("Cleared existing data from fact_show")
+        
+    # Load fresh data
     print("Loading fact_show table...")
     try:
-        # Thử dùng engine trước
         fact_show.to_sql(
             name="fact_show",
             con=engine,
@@ -38,7 +51,6 @@ def load(
         print(f"Loaded {len(fact_show)} records to fact_show")
     except Exception as e:
         print(f"Error with engine, trying connection string: {e}")
-        # Fallback: dùng connection string
         fact_show.to_sql(
             name="fact_show",
             con=connection_string,
@@ -50,6 +62,8 @@ def load(
 
     # --- Hàm insert dim ---
     def insert_dim(table_name, col_name, df):
+        unique_values = df[col_name].dropna().unique()
+        print(f"{table_name}: {len(unique_values)} unique values are going to insert")
         values = [{"val": v} for v in df[col_name].dropna().unique()]
         if values:
             with engine.begin() as conn:
@@ -146,7 +160,7 @@ def load(
             JOIN dim_genre g ON g.genre_name = :name
             WHERE f.title = :title AND f.release_year = :year
             """,
-            country_values
+            genre_values
         )
 
     print("Load completed successfully!")
