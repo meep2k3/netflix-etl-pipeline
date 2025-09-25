@@ -68,7 +68,8 @@ def transform(df: pd.DataFrame, output_dir: str = "/opt/airflow/data/processed")
     bridge_show_country = split_and_explode(df_filled, 'country')
 
     # fact show (loại bỏ các cột thừa)
-    fact_show = df_filled.drop(columns=['show_id', 'director', 'cast', 'country', 'listed_in'])
+    df_filled["show_id"] = df_filled["show_id"].str.replace("s", "", regex=False).astype(int)
+    fact_show = df_filled.drop(columns=['director', 'cast', 'country', 'listed_in'])
 
     # 5. Lưu thành các file csv
     files_saved = []
