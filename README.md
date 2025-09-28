@@ -178,31 +178,31 @@ flowchart LR
 ## 📊 Dashboard Visualizations
 
 ### Content Growth Analysis
-![Content Growth Over Time](dashboards/content_growth_over_time.png)
+![Content Growth Over Time](dashboards/content-growth-over-time-2025-09-25T02-14-43.763Z.jpg)
 *Shows exponential growth in Netflix content, with significant acceleration after 2015*
 
 ### Content Type Distribution
-![Content Distribution by Type](dashboards/content_distribution_by_type.png)
+![Content Distribution by Type](dashboards/content_distribution_by_type.png.jpg)
 *Movies comprise approximately 70% of Netflix catalog, with TV shows at 30%*
 
 ### Geographic Content Analysis
-![Top 15 Countries by Content Volume](dashboards/top_15_countries_by_content_volume.png)
+![Top 15 Countries by Content Volume](dashboards/top-15-countries-by-content-volume-2025-09-25T02-15-00.239Z.jpg)
 *United States dominates content production, followed by India and United Kingdom*
 
 ### Content Rating Insights
-![Content Ratings Distribution](dashboards/content_ratings_distribution.png)
+![Content Ratings Distribution](dashboards/content-ratings-distribution-2025-09-25T02-15-09.294Z.jpg)
 *TV-MA is the most common rating, indicating mature content preference*
 
 ### Genre Performance
-![Top Genres Performance](dashboards/top_genres_performance.png)
+![Top 10 Genres Performance](dashboards/top-10-genres-performance-2025-09-25T02-15-35.116Z.jpg)
 *International Movies and Dramas lead the platform, showing global content strategy*
 
 ### Director Analysis
-![Top Director Performance](dashboards/top_director_performance.png)
+![Top  Director Performance](dashboards/top-10-director-performance-2025-09-25T02-15-42.698Z.jpg)
 *Identifies most prolific directors on the platform*
 
 ### Complete Analytics Dashboard
-![Netflix Analytics Dashboard](dashboards/netflix_analytics_dashboard.png)
+![Netflix Analytics Dashboard](dashboards/netflix-data-2025-09-25T02-14-05.630Z.jpg)
 *Comprehensive view combining all key metrics and insights*
 
 ---
