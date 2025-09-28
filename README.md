@@ -1,3 +1,4 @@
+
 # Netflix ETL Pipeline with Airflow, MySQL, and Superset
 
 ![Airflow](https://img.shields.io/badge/Airflow-2.10-blue)
@@ -68,6 +69,56 @@ netflix-etl-pipeline/
 
 ---
 
+## 📊 Raw Data Analysis (netflix_titles.csv)
+
+### Dataset Structure & Quality Assessment
+
+**Raw Dataset Characteristics:**
+- **Source File**: `netflix_titles.csv` (12 columns, 8,800+ records)
+- **Primary Key**: `show_id` (unique identifier for each title)
+- **Content Types**: Movies and TV Shows
+- **Date Range**: Content from 1925 to 2021
+
+**Column Analysis:**
+- `show_id`: Unique identifier (no nulls)
+- `type`: Movie/TV Show classification 
+- `title`: Content title (some duplicates across regions)
+- `director`: Director information (significant missing values ~30%)
+- `cast`: Cast information (missing values ~10%)
+- `country`: Production country (missing values ~10%)
+- `date_added`: Netflix addition date (missing values ~1%)
+- `release_year`: Original release year (complete data)
+- `rating`: Content rating (missing values ~5%)
+- `duration`: Movie duration/TV seasons (complete data)
+- `listed_in`: Genres/categories (comma-separated values)
+- `description`: Content description (complete data)
+
+**Data Quality Issues Identified:**
+- **Missing Values**: Director, cast, country fields have substantial gaps
+- **Inconsistent Formatting**: Country field contains multiple countries separated by commas
+- **Genre Complexity**: `listed_in` field contains multiple genres per title
+- **Date Format Variations**: `date_added` requires standardization
+- **Duplicate Handling**: Same content may appear with different metadata
+
+**Raw Data Patterns:**
+- **Content Volume**: ~70% Movies, ~30% TV Shows
+- **Missing Director Data**: Particularly common in older content and some international titles  
+- **Multi-Country Productions**: Significant number of international collaborations
+- **Genre Overlap**: Most content belongs to multiple genre categories
+- **Temporal Distribution**: Heavy concentration of content added post-2015
+
+**ETL Transformation Needs:**
+- Normalize country data (split comma-separated values)
+- Handle missing values with appropriate defaults
+- Extract and normalize genre information
+- Standardize date formats
+- Create dimensional tables for star schema design
+- Implement data quality checks and validation rules
+
+This analysis informs our ETL pipeline design to properly clean, normalize, and structure the raw data for analytical queries.
+
+---
+
 ## 🚀 How to Run
 
 1. **Clone the repository**
@@ -125,27 +176,35 @@ flowchart LR
 
 ---
 
-## 📊 Dashboards Preview
-- **Content Growth Over Time**  
-  ![Growth](dashbroads/content-growth-over-time-2025-09-07T17-29-34.974Z.jpg)
+## 📊 Dashboard Visualizations
 
-- **Distribution by Type**  
-  ![Type](dashbroads/content-distribution-by-type-2025-09-07T17-29-44.282Z.jpg)
+### Content Growth Analysis
+![Content Growth Over Time](images/content_growth_over_time.png)
+*Shows exponential growth in Netflix content, with significant acceleration after 2015*
 
-- **Top 15 Countries**  
-  ![Countries](dashbroads/top-15-countries-by-content-volume-2025-09-07T17-29-53.079Z.jpg)
+### Content Type Distribution
+![Content Distribution by Type](images/content_distribution_by_type.png)
+*Movies comprise approximately 70% of Netflix catalog, with TV shows at 30%*
 
-- **Ratings Distribution**  
-  ![Ratings](dashbroads/content-ratings-distribution-2025-09-07T17-30-00.744Z.jpg)
+### Geographic Content Analysis
+![Top 15 Countries by Content Volume](images/top_15_countries_by_content_volume.png)
+*United States dominates content production, followed by India and United Kingdom*
 
-- **Top Genres**  
-  ![Genres](dashbroads/top-genres-performance-2025-09-07T17-30-06.903Z.jpg)
+### Content Rating Insights
+![Content Ratings Distribution](images/content_ratings_distribution.png)
+*TV-MA is the most common rating, indicating mature content preference*
 
-- **Duration & Seasons**  
-  ![Duration](dashbroads/content-duration-and-season-analysis-2025-09-07T17-30-13.328Z.jpg)
+### Genre Performance
+![Top Genres Performance](images/top_genres_performance.png)
+*International Movies and Dramas lead the platform, showing global content strategy*
 
-- **Full Dashboard**  
-  ![Dashboard](dashbroads/netflix-analytics-dashboard-2025-09-07T17-30-26.572Z.jpg)
+### Director Analysis
+![Top Director Performance](images/top_director_performance.png)
+*Identifies most prolific directors on the platform*
+
+### Complete Analytics Dashboard
+![Netflix Analytics Dashboard](images/netflix_analytics_dashboard.png)
+*Comprehensive view combining all key metrics and insights*
 
 ---
 
