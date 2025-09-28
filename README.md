@@ -1,4 +1,3 @@
-
 # Netflix ETL Pipeline with Airflow, MySQL, and Superset
 
 ![Airflow](https://img.shields.io/badge/Airflow-2.10-blue)
@@ -179,31 +178,31 @@ flowchart LR
 ## 📊 Dashboard Visualizations
 
 ### Content Growth Analysis
-![Content Growth Over Time](images/content_growth_over_time.png)
+![Content Growth Over Time](dashboards/content_growth_over_time.png)
 *Shows exponential growth in Netflix content, with significant acceleration after 2015*
 
 ### Content Type Distribution
-![Content Distribution by Type](images/content_distribution_by_type.png)
+![Content Distribution by Type](dashboards/content_distribution_by_type.png)
 *Movies comprise approximately 70% of Netflix catalog, with TV shows at 30%*
 
 ### Geographic Content Analysis
-![Top 15 Countries by Content Volume](images/top_15_countries_by_content_volume.png)
+![Top 15 Countries by Content Volume](dashboards/top_15_countries_by_content_volume.png)
 *United States dominates content production, followed by India and United Kingdom*
 
 ### Content Rating Insights
-![Content Ratings Distribution](images/content_ratings_distribution.png)
+![Content Ratings Distribution](dashboards/content_ratings_distribution.png)
 *TV-MA is the most common rating, indicating mature content preference*
 
 ### Genre Performance
-![Top Genres Performance](images/top_genres_performance.png)
+![Top Genres Performance](dashboards/top_genres_performance.png)
 *International Movies and Dramas lead the platform, showing global content strategy*
 
 ### Director Analysis
-![Top Director Performance](images/top_director_performance.png)
+![Top Director Performance](dashboards/top_director_performance.png)
 *Identifies most prolific directors on the platform*
 
 ### Complete Analytics Dashboard
-![Netflix Analytics Dashboard](images/netflix_analytics_dashboard.png)
+![Netflix Analytics Dashboard](dashboards/netflix_analytics_dashboard.png)
 *Comprehensive view combining all key metrics and insights*
 
 ---
